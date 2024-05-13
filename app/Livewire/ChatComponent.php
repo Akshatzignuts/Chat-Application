@@ -57,17 +57,31 @@ class ChatComponent extends Component
     }
 
     public function sendMessage()
-    {
-       $chatMessage = new Message();
-       $chatMessage->sender_id = $this->sender_id;
-       $chatMessage->receiver_id = $this->receiver_id;
-       $chatMessage->message = $this->message;
-       $chatMessage->save();
-       $this->appendChatMessage($chatMessage);
-       broadcast(new MessageSendEvent($chatMessage))->toOthers();
-       
-       $this->message = "";
-       
+{
+    $sender = auth()->user();
+    $recipient = User::findOrFail($this->receiver_id);
+
+    // Check if the sender is blocked by the recipient
+    if ($recipient->blockedUsers()->where('blocked_user_id', $sender->id)->exists()) {
+        return response()->json(['message' => 'Sender is blocked by the recipient'], 400);
     }
+
+    // Check if the recipient is blocked by the sender
+    if ($sender->blockedUsers()->where('blocked_user_id', $recipient->id)->exists()) {
+        return response()->json(['message' => 'Recipient is blocked by the sender'], 400);
+    }
+
+    // If neither the sender nor recipient is blocked, proceed with sending the message
+    $chatMessage = new Message();
+    $chatMessage->sender_id = $this->sender_id;
+    $chatMessage->receiver_id = $this->receiver_id;
+    $chatMessage->message = $this->message;
+    $chatMessage->save();
+    $this->appendChatMessage($chatMessage);
+    broadcast(new MessageSendEvent($chatMessage))->toOthers();
+   
+    $this->message = "";
+}
+    
     
 }

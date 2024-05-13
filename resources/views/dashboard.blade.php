@@ -11,7 +11,6 @@
         <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden">
             <div class="p-6 border-b border-gray-200">
                 <h2 class="text-2xl font-bold mb-6 text-center">Contacts</h2>
-
                 <ul class="space-y-4">
                     @foreach($users as $user)
                     <li>
@@ -22,17 +21,14 @@
                                 </div>
                                 <span class="text-lg font-medium text-gray-800">{{ $user->name }}</span>
                             </div>
-                            <!-- Add a status indicator (online/offline) -->
-                            <b><sup id="{{$user->id}}-status" class="offline-status">Offline</sup></b>
+                          
                         </a>
                     </li>
                     @endforeach
                 </ul>
             </div>
-
         </div>
     </div>
-
 </x-app-layout>
 <style>
     .offline-status {
@@ -42,8 +38,6 @@
     .online-status {
         color: green;
     }
-
-
 
     .create-group-button {
         position: absolute;

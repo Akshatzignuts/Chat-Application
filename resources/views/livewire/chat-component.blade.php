@@ -1,5 +1,11 @@
 <div class="h-screen flex flex-col">
     <!-- Header -->
+    <link rel="stylesheet" href="{{ asset('css/sweetalert2.min.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        window.Swal = require('sweetalert2');
+
+    </script>
     <div class="fixed w-full bg-green-400 h-16 pt-2 text-white flex justify-between shadow-md" style="top:0px;">
         <!-- back button -->
         <a href="/dashboard">
@@ -14,17 +20,15 @@
                 <path class="text-green-100 fill-current" fill-rule="evenodd" d="M12 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" />
             </svg>
             <div class="hidden bg-white shadow-md py-2 absolute right-0 mt-2 w-48" id="dropdown">
-
-                <button class="block w-full py-2 px-4 text-sm text-red-500 hover:text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-200">
-                    View Contact
-                </button>
-                <button class="block w-full py-2 px-4 text-sm text-red-500 hover:text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-200">
-                    Clear Chat
-                </button>
+                <a href="{{route('user.block', ['userId' => $user->id])}}" class="block w-full py-2 px-4 text-sm text-red-500 hover:text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-200" data-action="{{ route('user.block', ['userId' => $user->id]) }}">
+                    Block User
+                </a>
+                <a href="{{route('user.unblock', ['userId' => $user->id])}}" class="block w-full py-2 px-4 text-sm text-red-500 hover:text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-200" data-action="{{route('user.unblock', ['userId' => $user->id])}}">
+                    UnBlock User
+                </a>
             </div>
         </div>
     </div>
-
     <!-- Chat messages -->
     <div class="flex-1 overflow-y-auto p-4">
         @foreach ($messages as $message)
@@ -43,7 +47,6 @@
         @endif
         @endforeach
     </div>
-
     <!-- Chat input -->
     <form wire:submit="sendMessage()">
         <div class="fixed w-full flex justify-between bg-green-100 py-2" style="bottom: 0px;">
@@ -59,6 +62,27 @@
 <script>
     document.getElementById('dropdown-button').addEventListener('click', function() {
         document.getElementById('dropdown').classList.toggle('hidden');
+    });
+
+</script>
+
+<script>
+    document.querySelector('a[data-action]').addEventListener('click', function(event) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Are you sure?'
+            , text: 'This will block the user and prevent them from sending you messages.'
+            , icon: 'warning'
+            , showCancelButton: true
+            , confirmButtonText: 'Yes, block user'
+            , cancelButtonText: 'No, cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Send an AJAX request to block the user
+                blockUserAjax(this.dataset.action);
+            }
+        });
     });
 
 </script>
