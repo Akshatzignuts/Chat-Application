@@ -7,7 +7,7 @@ use App\Models\Message;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-class ChatComponent extends Component
+    class ChatComponent extends Component
 {
     public $user;
     public $sender_id;
@@ -70,7 +70,7 @@ class ChatComponent extends Component
     if ($sender->blockedUsers()->where('blocked_user_id', $recipient->id)->exists()) {
         return response()->json(['message' => 'Recipient is blocked by the sender'], 400);
     }
-
+    
     // If neither the sender nor recipient is blocked, proceed with sending the message
     $chatMessage = new Message();
     $chatMessage->sender_id = $this->sender_id;
@@ -82,6 +82,5 @@ class ChatComponent extends Component
    
     $this->message = "";
 }
-    
     
 }

@@ -12,12 +12,4 @@ class DashboardController extends Controller
         $users = User::where('id' , '!=' , auth()->user()->id)->with('userActivity')->get();
         return view('dashboard', compact('users'));
     }   
-    public function updateActivity(Request $request, UserActivity $userActivity)
-    {
-        dd('hii');
-        $userActivity->last_activity = now();
-        $userActivity->save();
-
-        return response()->json(['message' => 'Activity updated']);
-    }
 }
