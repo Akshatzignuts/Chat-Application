@@ -31,9 +31,6 @@ new class extends Component
                         {{ __('Status') }}
                     </x-nav-link>
                     <x-nav-link>
-                        {{ __('Calls') }}
-                    </x-nav-link>
-                    <x-nav-link>
                         {{ __('Profile') }}
                     </x-nav-link>
                 </div>

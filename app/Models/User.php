@@ -5,6 +5,8 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Carbon\Carbon;
+
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
@@ -20,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'last_seen',
     ];
 
     /**
@@ -51,5 +54,16 @@ class User extends Authenticatable
     public function blockedUsers()
     {
         return $this->belongsToMany(User::class, 'blocked_users', 'user_id', 'blocked_user_id');
+    }
+    public function getLastSeenAttribute($value)
+    {
+        return Carbon::parse($value)->diffForHumans();
+    }
+    public function isOnline()
+    {
+        // Define the threshold for considering a user as online (e.g., within 5 minutes)
+        $status = Carbon::now();
+        //Check if the user's last_seen timestamp is within the threshold
+        return $this->last_seen > $status;
     }
 }

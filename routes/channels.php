@@ -8,7 +8,3 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('chat-channel.{userId}',function(User $user ,$userId){
     return(int) $user->id === (int) $userId;
 });
-Broadcast::channel('status-update',function($user)
-{
-    return $user;
-});

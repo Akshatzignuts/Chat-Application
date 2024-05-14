@@ -7,7 +7,7 @@
 
     <!-- Using Tailwind CSS classes for styling -->
     <div class="container mx-auto px-6 py-12">
-        <div class="create-group-button">+</div>
+
         <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden">
             <div class="p-6 border-b border-gray-200">
                 <h2 class="text-2xl font-bold mb-6 text-center">Contacts</h2>
@@ -21,7 +21,11 @@
                                 </div>
                                 <span class="text-lg font-medium text-gray-800">{{ $user->name }}</span>
                             </div>
-                          
+                            @if($user->isOnline())
+                            <span class="text-green-500">Online</span>
+                            @else
+                            <sup>last seen: {{$user->last_seen}}</sup>
+                            @endif
                         </a>
                     </li>
                     @endforeach

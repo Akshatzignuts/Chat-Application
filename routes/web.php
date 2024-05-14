@@ -7,7 +7,7 @@ use App\Http\Controllers\ChatController;
 Route::view('/', 'welcome');
 
 Route::get('/dashboard',[DashboardController::class ,'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth', 'verified','lastSeen','status'])
     ->name('dashboard');
     
 

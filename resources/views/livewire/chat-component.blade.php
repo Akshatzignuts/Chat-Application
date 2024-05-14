@@ -20,10 +20,11 @@
                 <path class="text-green-100 fill-current" fill-rule="evenodd" d="M12 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 7a2 2 0 1 1 0-4 2 2 0 0 1 0 4z" />
             </svg>
             <div class="hidden bg-white shadow-md py-2 absolute right-0 mt-2 w-48" id="dropdown">
-                <a href="{{route('user.block', ['userId' => $user->id])}}" class="block w-full py-2 px-4 text-sm text-red-500 hover:text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-200">
+                <a href="{{route('user.block', ['userId' => $user->id])}}" class="block w-full py-2 px-4 text-sm text-red-500 hover:text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-200" id="blockUserLink">
                     Block User
                 </a>
-                <a href="{{route('user.unblock', ['userId' => $user->id])}}" class="block w-full py-2 px-4 text-sm text-red-500 hover:text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-200">
+
+                <a href="{{route('user.unblock', ['userId' => $user->id])}}" class="block w-full py-2 px-4 text-sm text-red-500 hover:text-red-700 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-200" id="unblockUserLink">
                     UnBlock User
                 </a>
             </div>
@@ -39,7 +40,6 @@
             </div>
         </div>
         @else
-
         <div class="clearfix mb-4 text-right">
             <div class="bg-green-400 p-2 rounded-lg inline-block text-white">
                 {{ $message['message'] }} <b>: You</b>
@@ -63,6 +63,36 @@
 <script>
     document.getElementById('dropdown-button').addEventListener('click', function() {
         document.getElementById('dropdown').classList.toggle('hidden');
+    });
+    document.getElementById("blockUserLink").addEventListener("click", function(event) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?'
+            , text: 'You will not be able to recover this user data!'
+            , icon: 'warning'
+            , showCancelButton: true
+            , confirmButtonText: 'Yes, block it!'
+            , cancelButtonText: 'cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = event.target.getAttribute("href");
+            }
+        });
+    });
+    document.getElementById("unblockUserLink").addEventListener("click", function(event) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Are you sure?'
+            , text: 'Afetr Confirming you can chat with the user'
+            , icon: 'question'
+            , showCancelButton: true
+            , confirmButtonText: 'Yes, unblock it!'
+            , cancelButtonText: 'cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = event.target.getAttribute("href");
+            }
+        });
     });
 
 </script>

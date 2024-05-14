@@ -13,7 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'lastSeen' => \App\Http\Middleware\UpdateLastSeen::class,
+            'status'  => \App\Http\Middleware\UserStatus::class,
+        ]);
     })->withMiddleware(function (Middleware $middleware) {
         $middleware->append(UpdateUserActivity::class);
    })

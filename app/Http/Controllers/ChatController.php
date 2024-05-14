@@ -17,16 +17,20 @@ class ChatController extends Controller
     {
         $user = auth()->user();
         $blockedUser = User::findOrFail($userId);
-
+    
         // Check if the user is already blocked
         if ($user->blockedUsers()->where('blocked_user_id', $blockedUser->id)->exists()) {
             return redirect()->back();
         }
+        // Check if the user is trying to block themselves
+        if ($user->id === $blockedUser->id) {
+            return redirect()->back()->withErrors(['message' => 'You cannot block yourself.']);
+        }
+    
         // Block the user
         $user->blockedUsers()->attach($blockedUser);
         return redirect()->back();
     }
-   
     public function unblock($userId)
     {
         $user = auth()->user();
@@ -35,6 +39,5 @@ class ChatController extends Controller
         $user->blockedUsers()->detach($blockedUser);
         return redirect()->back()->with('success', 'User unblocked successfully.');
     }
-    
     
 }
