@@ -37,7 +37,7 @@ use Livewire\Component;
         $this->appendChatMessage($message);
        }
     }
-    
+     
     #[On('echo-private:chat-channel.{sender_id},MessageSendEvent')]
     public function listenMessage($event)
     {
@@ -54,7 +54,6 @@ use Livewire\Component;
             'reciever' => $message->receiver->name,
         ];
     }
-
     public function sendMessage()
     {
         $sender = auth()->user();

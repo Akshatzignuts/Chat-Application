@@ -21,11 +21,7 @@
                                 </div>
                                 <span class="text-lg font-medium text-gray-800">{{ $user->name }}</span>
                             </div>
-                            @if($user->isOnline())
-                            <span class="text-green-500">Online</span>
-                            @else
                             <sup>last seen: {{$user->last_seen}}</sup>
-                            @endif
                         </a>
                     </li>
                     @endforeach

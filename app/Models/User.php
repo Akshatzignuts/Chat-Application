@@ -59,11 +59,5 @@ class User extends Authenticatable
     {
         return Carbon::parse($value)->diffForHumans();
     }
-    public function isOnline()
-    {
-        // Define the threshold for considering a user as online (e.g., within 5 minutes)
-        $status = Carbon::now();
-        //Check if the user's last_seen timestamp is within the threshold
-        return $this->last_seen > $status;
-    }
+    
 }
